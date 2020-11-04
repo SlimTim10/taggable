@@ -24,11 +24,11 @@ CREATE TABLE IF NOT EXISTS tags (
   text TEXT NOT NULL UNIQUE
 );
 CREATE TABLE IF NOT EXISTS file_tags (
-  id INTEGER PRIMARY KEY,
   file_id INTEGER NOT NULL,
   tag_id INTEGER NOT NULL,
   FOREIGN KEY(file_id) REFERENCES files(id),
-  FOREIGN KEY(tag_id) REFERENCES tags(id)
+  FOREIGN KEY(tag_id) REFERENCES tags(id),
+  PRIMARY KEY(file_id, tag_id)
 );
 |]
 
