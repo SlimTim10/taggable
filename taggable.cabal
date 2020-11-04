@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: d78055c7c46f0078f263d2547e9e993b7370bee6b0c8c73330065977ead73109
+-- hash: 0c469c1c772fe40ccb4ef2963d18943f4b4dc122c25ecbfeee2bf92762a62f51
 
 name:           taggable
 version:        0.1.0.0
@@ -28,7 +28,9 @@ source-repository head
 library
   exposed-modules:
       Lib
+      Queries
       Schema
+      Types
   other-modules:
       Paths_taggable
   hs-source-dirs:
