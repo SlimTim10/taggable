@@ -50,19 +50,24 @@ run (Options workingDir) = do
   conn <- open dbPath
   buildSchema conn
   populateFiles conn workingDir
+  
+  -- Tag seeds
   let sampleTags = ["pets", "cat", "birthday", "tricks"] :: [String]
   mapM_ (insertTag conn) sampleTags
-  res <- query_ conn "SELECT * from files" :: IO [File]
-  putStrLn "Files:"
-  mapM_ print res
   
+  putStrLn "Files:"
+  mapM_ print =<< findAllFiles conn
+  putStrLn "Tags:"
+  mapM_ print =<< findAllTags conn
+
+  -- File tag seeds
   addTagToFile conn "cat1.txt" "pets"
   addTagToFile conn "cat2.txt" "pets"
   addTagToFile conn "cat1.txt" "cat"
   addTagToFile conn "cat2.txt" "cat"
   addTagToFile conn "cat1.txt" "birthday"
   addTagToFile conn "cat2.txt" "tricks"
-  
+
   putStrLn "Files with tag: pets"
   pets <- findFilesWithTag conn "pets"
   mapM_ print pets
@@ -113,15 +118,19 @@ findFileByPath conn filePath = returnFirst <$> rows
   where
     rows = queryNamed conn "SELECT * FROM files WHERE path = :path" [":path" := filePath] :: IO [File]
 
-findFilesWithTag :: Connection -> String -> IO [File]
-findFilesWithTag conn tagText = rows
-  where
-    rows = queryNamed conn "SELECT f.* FROM files AS f INNER JOIN file_tags AS ft ON ft.file_id = f.id INNER JOIN tags AS t ON ft.tag_id = t.id WHERE t.text = :text" [":text" := tagText] :: IO [File]
-
 findTagByText :: Connection -> String -> IO (Maybe Tag)
 findTagByText conn tagText = returnFirst <$> rows
   where
     rows = queryNamed conn "SELECT * FROM tags WHERE text = :text" [":text" := tagText] :: IO [Tag]
+
+findFilesWithTag :: Connection -> String -> IO [File]
+findFilesWithTag conn tagText = queryNamed conn "SELECT f.* FROM files AS f INNER JOIN file_tags AS ft ON ft.file_id = f.id INNER JOIN tags AS t ON ft.tag_id = t.id WHERE t.text = :text" [":text" := tagText] :: IO [File]
+
+findAllFiles :: Connection -> IO [File]
+findAllFiles conn = query_ conn "SELECT * from files"
+
+findAllTags :: Connection -> IO [Tag]
+findAllTags conn = query_ conn "SELECT * from tags"
 
 addTagToFile :: Connection -> FilePath -> TagText -> IO ()
 addTagToFile conn filePath tagText = do
