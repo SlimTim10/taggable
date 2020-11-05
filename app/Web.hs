@@ -6,7 +6,6 @@ import Web.Scotty
 
 import Control.Monad.IO.Class (liftIO)
 import Database.SQLite.Simple (Connection)
-import qualified Data.Text.Lazy as T
 
 import Queries
   ( findAllFiles
@@ -25,4 +24,4 @@ showTest = do
 showFiles :: Connection -> ActionM ()
 showFiles dbConn = do
   fs <- liftIO $ findAllFiles dbConn
-  html $ mconcat ["<h1>files</h1>", T.pack (show fs)]
+  json fs
