@@ -32,6 +32,27 @@ packages:
       sha256: 6e90778b5105753d7de0f7a0c502dadf8f04825f17a36186aa801e56ef7ca206
   original:
     hackage: process-1.6.10.0@sha256:c0d2d8adaca7cea7ceaa60e67b61c775dc03727b83bdb1c97aa8cbeac9f5dd84,2469
+- completed:
+    hackage: Cabal-3.2.0.0@sha256:d0d7a1f405f25d0000f5ddef684838bc264842304fd4e7f80ca92b997b710874,27320
+    pantry-tree:
+      size: 40963
+      sha256: b122f2d76dc82a350d3986fa0cbc4ecf9c3bb4f9c598ccbfb3b2bfdde02f3698
+  original:
+    hackage: Cabal-3.2.0.0@sha256:d0d7a1f405f25d0000f5ddef684838bc264842304fd4e7f80ca92b997b710874,27320
+- completed:
+    hackage: scotty-0.12@sha256:4d6bbb15627cec8c7c71f9ce02629bb986b5fe20a50472df33bccbe908d9bda8,5353
+    pantry-tree:
+      size: 1701
+      sha256: ebb9cb9e72c598e03503d98d5dd0796f465e1664c87ebe64fde4d349b13ccfc6
+  original:
+    hackage: scotty-0.12@sha256:4d6bbb15627cec8c7c71f9ce02629bb986b5fe20a50472df33bccbe908d9bda8,5353
+- completed:
+    hackage: regex-posix-clib-2.7@sha256:998fca06da3d719818f0691ef0b8b9b7375afeea228cb08bd9e2db53f96b0cd7,1232
+    pantry-tree:
+      size: 524
+      sha256: 5bf20952472d930323766d250f5fbbe3fe6f2cd3d931e5cf7b62a238ab2099ff
+  original:
+    hackage: regex-posix-clib-2.7
 snapshots:
 - completed:
     size: 532380
