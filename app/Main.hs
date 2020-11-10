@@ -21,6 +21,7 @@ import Queries
   , findAllTags
   , addTagToFile
   )
+import Web (runServer)
   
 taggableDirName :: String
 taggableDirName = ".taggable"
@@ -64,6 +65,8 @@ run (Options workingDir) = do
   putStrLn "Files with tag: tricks"
   tricks <- findFilesWithTag conn "tricks"
   mapM_ print tricks
+
+  runServer conn
   
   close conn
   where
