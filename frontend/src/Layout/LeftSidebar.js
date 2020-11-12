@@ -4,10 +4,10 @@ const LeftSidebar = () => {
       <div>Find</div>
       <input placeholder="tag"></input>
       <ul className="find-tags">
-        <li>pets</li>
-        <li>cat</li>
-        <li>2018</li>
-        <li>cottage</li>
+        <li><button>x</button> pets</li>
+        <li><button>x</button> cat</li>
+        <li><button>x</button> 2018</li>
+        <li><button>x</button> cottage</li>
       </ul>
     </div>
   )
