@@ -6,47 +6,42 @@ import Header from './Layout/Header'
 import LeftSidebar from './Layout/LeftSidebar'
 import Main from './Layout/Main'
 
+const formatTagQuery = tags => tags
+      .map(t => t.tagText)
+      .join(',')
+const empty = xs => xs.length === 0
+
 const App = () => {
   const [files, setFiles] = useState([])
-  const [findTags, setFindTags] = useState([])
+  // const [findTags, setFindTags] = useState([])
+  const [findTags, setFindTags] = useState([
+    {tagID: 1, tagText: 'pets'},
+    {tagID: 2, tagText: 'cat'},
+    {tagID: 3, tagText: 'birthday'},
+  ])
 
-  const fetchFiles = async () => {
-    try {
-      const res = await axios.get('/files?tags=cat,birthday')
-      // const res = await axios.get('/files')
-      if (Array.isArray(res.data)) setFiles(res.data)
-    } catch (e) {
-      console.error('Could not fetch files')
-      console.error(e)
+  useEffect(() => {
+    const fetchFiles = async () => {
+      try {
+        const url =
+          empty(findTags) ? `/files`
+          : `/files?tags=${formatTagQuery(findTags)}`
+        const res = await axios.get(url)
+        if (Array.isArray(res.data)) setFiles(res.data)
+        console.log(res.data)
+      } catch (e) {
+        console.error('Could not fetch files')
+        console.error(e)
+      }
     }
-  }
-
-  const filterFiles = async (findTags) => {
-    console.log(findTags)
-    // try {
-    //   const q = findTags
-    //         .map(t => t.tagText)
-    //         .join(',')
-    //   const res = await axios.get(`/files?q=${q}`)
-    //   if (Array.isArray(res.data)) setFiles(res.data)
-    // } catch (e) {
-    //   console.error('Could not fetch files')
-    //   console.error(e)
-    // }
-  }
-  
-  useEffect(() => {
+    
     fetchFiles()
-  }, [])
-
-  useEffect(() => {
-    filterFiles(findTags)
   }, [findTags])
 
   return (
     <div className="App">
       <Header />
-      <LeftSidebar {...{findTags}} />
+      <LeftSidebar {...{findTags, setFindTags}} />
       <Main {...{files}} />
     </div>
   )

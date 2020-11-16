@@ -1,6 +1,12 @@
-const Find = ({findTags}) => {
+const Find = ({findTags, setFindTags}) => {
+  const removeTag = tagID => (e) => {
+    setFindTags(fts => fts.filter(ft => ft.tagID !== tagID))
+  }
+  
   const makeFindTag = findTag => (
-    <li key={findTag.tagID}><button>x</button> {findTag.tagText}</li>
+    <li key={findTag.tagID}>
+      <button onClick={removeTag(findTag.tagID)}>x</button> {findTag.tagText}
+    </li>
   )
   
   return (
@@ -9,10 +15,6 @@ const Find = ({findTags}) => {
       <input placeholder="tag"></input>
       <ul className="find-tags">
         {findTags.map(makeFindTag)}
-        <li><button>x</button> pets</li>
-        <li><button>x</button> cat</li>
-        <li><button>x</button> 2018</li>
-        <li><button>x</button> cottage</li>
       </ul>
     </>
   )

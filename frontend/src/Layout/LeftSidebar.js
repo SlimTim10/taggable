@@ -1,9 +1,9 @@
 import Find from '../Components/Find'
 
-const LeftSidebar = ({findTags}) => {
+const LeftSidebar = ({findTags, setFindTags}) => {
   return (
     <div className="left-sidebar">
-      <Find {...{findTags}} />
+      <Find {...{findTags, setFindTags}} />
     </div>
   )
 }
