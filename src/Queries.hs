@@ -5,6 +5,7 @@ module Queries
   , findFileByPath
   , findTagByText
   , findFilesWithTag
+  , findFilesWithTagsConjunction
   , findAllFiles
   , findAllTags
   , addTagToFile
@@ -14,10 +15,13 @@ import Database.SQLite.Simple
   ( Connection
   , NamedParam(..)
   , Only(..)
+  , Query(..)
   , query_
   , queryNamed
   , execute
   )
+import qualified Data.Text as T
+import Data.List (intercalate)
 
 import Types
   ( File(..)
@@ -49,15 +53,22 @@ returnFirst (x : _) = Just x
 findFileByPath :: Connection -> FilePath -> IO (Maybe File)
 findFileByPath conn filePath = returnFirst <$> rows
   where
-    rows = queryNamed conn "SELECT * FROM files WHERE path = :path" [":path" := filePath] :: IO [File]
+    rows = queryNamed conn "SELECT * FROM files WHERE path = :path" [":path" := filePath]
 
 findTagByText :: Connection -> String -> IO (Maybe Tag)
 findTagByText conn tagText = returnFirst <$> rows
   where
-    rows = queryNamed conn "SELECT * FROM tags WHERE text = :text" [":text" := tagText] :: IO [Tag]
+    rows = queryNamed conn "SELECT * FROM tags WHERE text = :text" [":text" := tagText]
 
 findFilesWithTag :: Connection -> String -> IO [File]
-findFilesWithTag conn tagText = queryNamed conn "SELECT f.* FROM files AS f INNER JOIN file_tags AS ft ON ft.file_id = f.id INNER JOIN tags AS t ON ft.tag_id = t.id WHERE t.text = :text" [":text" := tagText] :: IO [File]
+findFilesWithTag conn tagText = queryNamed conn "SELECT f.* FROM files AS f INNER JOIN file_tags AS ft ON ft.file_id = f.id INNER JOIN tags AS t ON ft.tag_id = t.id WHERE t.text = :text" [":text" := tagText]
+
+-- SQLite.Simple does not support list parameters (like use with "IN")
+findFilesWithTagsConjunction :: Connection -> [String] -> IO [File]
+findFilesWithTagsConjunction conn tags = query_ conn q
+  where
+    tagsFormat = intercalate "," . map (\t -> "'" ++ t ++ "'") $ tags
+    q = Query $ T.pack $ "SELECT f.* FROM files AS f INNER JOIN file_tags AS ft ON ft.file_id = f.id INNER JOIN tags AS t ON ft.tag_id = t.id WHERE t.text IN (" ++ tagsFormat ++ ") GROUP BY f.id HAVING COUNT(DISTINCT t.text) = (SELECT COUNT(*) FROM tags WHERE text IN (" ++ tagsFormat ++ "))"
 
 findAllFiles :: Connection -> IO [File]
 findAllFiles conn = query_ conn "SELECT * from files"

@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: bb0b8e90eed29f258f4c74eb532af70bdad77ae3bfb0d929c64012ee25660c29
+-- hash: 2fa1c4c809d8ed8817702d2b251db11aa105be33f6507b808647355a0538d9f8
 
 name:           taggable
 version:        0.1.0.0
@@ -45,6 +45,7 @@ library
     , optparse-applicative >=0.15.0.0 && <0.16
     , raw-strings-qq >=1.1 && <1.2
     , scotty >=0.12 && <0.13
+    , split >=0.2.3.4 && <0.3
     , sqlite-simple >=0.4.18.0 && <0.5
     , text >=0.11.3.1 && <1.3
     , transformers >=0.5.6.2 && <0.6
@@ -68,6 +69,7 @@ executable taggable-exe
     , optparse-applicative >=0.15.0.0 && <0.16
     , raw-strings-qq >=1.1 && <1.2
     , scotty >=0.12 && <0.13
+    , split >=0.2.3.4 && <0.3
     , sqlite-simple >=0.4.18.0 && <0.5
     , taggable
     , text >=0.11.3.1 && <1.3
@@ -93,6 +95,7 @@ test-suite taggable-test
     , optparse-applicative >=0.15.0.0 && <0.16
     , raw-strings-qq >=1.1 && <1.2
     , scotty >=0.12 && <0.13
+    , split >=0.2.3.4 && <0.3
     , sqlite-simple >=0.4.18.0 && <0.5
     , taggable
     , text >=0.11.3.1 && <1.3
