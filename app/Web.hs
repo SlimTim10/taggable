@@ -12,17 +12,13 @@ import Data.List.Split (splitOn)
 import Queries
   ( findAllFiles
   , findFilesWithTagsConjunction
+  , findAllTags
   )
 
 runServer :: Connection -> IO ()
 runServer dbConn = scotty 3000 $ do
   get "/files" $ getFiles dbConn
-  get "/beam/:word" showTest
-
-showTest :: ActionM ()
-showTest = do
-  beam <- param "word"
-  html $ mconcat ["<h1>Scotty, ", beam, " me up!</h1>"]
+  get "/tags" $ getTags dbConn
 
 getFiles :: Connection -> ActionM ()
 getFiles dbConn = do
@@ -35,4 +31,14 @@ getFiles dbConn = do
     getAllFiles = do
       fs <- liftIO $ findAllFiles dbConn
       json fs
+      finish
+
+getTags :: Connection -> ActionM ()
+getTags dbConn = do
+  -- matchParam <- param "match" `rescue` const getAllTags
+  getAllTags
+  where
+    getAllTags = do
+      ts <- liftIO $ findAllTags dbConn
+      json ts
       finish

@@ -1,6 +1,12 @@
-const Find = ({findTags, setFindTags}) => {
+import { useState } from 'react'
+
+const Find = ({findTags, setFindTags, tagInput, setTagInput, selectionTags}) => {
   const removeTag = tagID => (e) => {
     setFindTags(fts => fts.filter(ft => ft.tagID !== tagID))
+  }
+
+  const handleInput = (e) => {
+    setTagInput(e.target.value)
   }
   
   const makeFindTag = findTag => (
@@ -12,7 +18,7 @@ const Find = ({findTags, setFindTags}) => {
   return (
     <>
       <div>Find</div>
-      <input placeholder="tag"></input>
+      <input onChange={handleInput} placeholder="tag"></input>
       <ul className="find-tags">
         {findTags.map(makeFindTag)}
       </ul>
