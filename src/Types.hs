@@ -15,8 +15,8 @@ import GHC.Generics (Generic)
 
 data File =
   File
-  { fileID :: Int
-  , filePath :: String
+  { id :: Int
+  , path :: String
   } deriving (Eq, Read, Show, Generic)
 
 instance FromRow File where
@@ -27,8 +27,8 @@ instance ToJSON File
 
 data Tag =
   Tag
-  { tagID :: Int
-  , tagText :: String
+  { id :: Int
+  , text :: String
   } deriving (Eq, Read, Show, Generic)
 
 instance FromRow Tag where
@@ -40,16 +40,16 @@ instance ToJSON Tag
 type TagText = String
 
 data FileTag = FileTag
-  { fileTagID :: Int
-  , ftFileID :: Int
-  , ftTagID :: Int
+  { id :: Int
+  , fileID :: Int
+  , tagID :: Int
   } deriving (Eq, Read, Show, Generic)
 
 instance FromRow FileTag where
   fromRow = FileTag <$> field <*> field <*> field
 
 instance ToRow FileTag where
-  toRow (FileTag _ftID ftFileID ftTagID) = toRow (ftFileID, ftTagID)
+  toRow (FileTag _ftID fileID tagID) = toRow (fileID, tagID)
 
 instance FromJSON FileTag
 instance ToJSON FileTag

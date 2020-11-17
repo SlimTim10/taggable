@@ -7,7 +7,7 @@ import LeftSidebar from './Layout/LeftSidebar'
 import Main from './Layout/Main'
 
 const formatTagQuery = tags => tags
-      .map(t => t.tagText)
+      .map(t => t.text)
       .join(',')
 const empty = xs => xs.length === 0
 
@@ -15,17 +15,17 @@ const App = () => {
   const [files, setFiles] = useState([])
   // const [findTags, setFindTags] = useState([])
   const [findTags, setFindTags] = useState([
-    {tagID: 1, tagText: 'pets'},
-    {tagID: 2, tagText: 'cat'},
-    {tagID: 3, tagText: 'birthday'},
+    {id: 1, text: 'pets'},
+    {id: 2, text: 'cat'},
+    {id: 3, text: 'birthday'},
   ])
 
   const removeTag = tag => {
-    setFindTags(fts => fts.filter(ft => ft.tagID !== tag.tagID))
+    setFindTags(fts => fts.filter(ft => ft.id !== tag.id))
   }
 
   const addTag = tag => {
-    if (!findTags.map(t => t.tagID).includes(tag.tagID)) {
+    if (!findTags.map(t => t.id).includes(tag.id)) {
       setFindTags(fts => [...fts, tag])
     }
   }

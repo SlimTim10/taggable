@@ -56,8 +56,8 @@ const FindTextField = ({addTag}) => {
           addTag(newValue)
         }
       }}
-      getOptionSelected={(option, value) => option.tagText === value.tagText}
-      getOptionLabel={option => option.tagText}
+      getOptionSelected={(option, value) => option.text === value.text}
+      getOptionLabel={option => option.text}
       options={options}
       loading={loading}
       renderInput={params => (

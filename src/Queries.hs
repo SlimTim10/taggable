@@ -81,5 +81,5 @@ addTagToFile conn filePath tagText = do
   mFile <- findFileByPath conn filePath
   mTag <- findTagByText conn tagText
   case (mFile, mTag) of
-    (Just file, Just tag) -> insertFileTag conn (fileID file) (tagID tag)
+    (Just File {id=fid}, Just Tag {id=tid}) -> insertFileTag conn fid tid
     _ -> return ()

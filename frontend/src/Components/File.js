@@ -1,5 +1,5 @@
 const File = ({file}) => {
-  return <li>{file.filePath}</li>
+  return <li>{file.path}</li>
 }
 
 export default File
