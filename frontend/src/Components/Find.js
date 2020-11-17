@@ -1,24 +1,16 @@
-import { useState } from 'react'
+import FindTextField from './FindTextField'
 
-const Find = ({findTags, setFindTags, tagInput, setTagInput, selectionTags}) => {
-  const removeTag = tagID => (e) => {
-    setFindTags(fts => fts.filter(ft => ft.tagID !== tagID))
-  }
-
-  const handleInput = (e) => {
-    setTagInput(e.target.value)
-  }
-  
+const Find = ({findTags, removeTag, addTag}) => {
   const makeFindTag = findTag => (
     <li key={findTag.tagID}>
-      <button onClick={removeTag(findTag.tagID)}>x</button> {findTag.tagText}
+      <button onClick={() => removeTag(findTag)}>x</button> {findTag.tagText}
     </li>
   )
   
   return (
     <>
       <div>Find</div>
-      <input onChange={handleInput} placeholder="tag"></input>
+      <FindTextField {...{addTag}}/>
       <ul className="find-tags">
         {findTags.map(makeFindTag)}
       </ul>

@@ -13,31 +13,22 @@ const empty = xs => xs.length === 0
 
 const App = () => {
   const [files, setFiles] = useState([])
-  const [selectionTags, setSelectionTags] = useState([])
   // const [findTags, setFindTags] = useState([])
   const [findTags, setFindTags] = useState([
     {tagID: 1, tagText: 'pets'},
     {tagID: 2, tagText: 'cat'},
     {tagID: 3, tagText: 'birthday'},
   ])
-  const [tagInput, setTagInput] = useState('')
 
-  useEffect(() => {
-    const fetchTags = async () => {
-      try {
-        const url =
-              empty(tagInput) ? `/tags`
-              : `/tags?match=${tagInput}`
-        const res = await axios.get(url)
-        if (Array.isArray(res.data)) setSelectionTags(res.data)
-      } catch (e) {
-        console.error('Could not fetch tags')
-        console.error(e)
-      }
+  const removeTag = tag => {
+    setFindTags(fts => fts.filter(ft => ft.tagID !== tag.tagID))
+  }
+
+  const addTag = tag => {
+    if (!findTags.map(t => t.tagID).includes(tag.tagID)) {
+      setFindTags(fts => [...fts, tag])
     }
-
-    fetchTags()
-  }, [tagInput])
+  }
 
   useEffect(() => {
     const fetchFiles = async () => {
@@ -59,7 +50,7 @@ const App = () => {
   return (
     <div className="App">
       <Header />
-      <LeftSidebar {...{findTags, setFindTags, tagInput, setTagInput, selectionTags}} />
+      <LeftSidebar {...{findTags, removeTag, addTag}} />
       <Main {...{files}} />
     </div>
   )
