@@ -1,0 +1,13 @@
+* Taggable
+
+** Development
+
+*** Run server
+#+BEGIN_SRC sh
+taggable> run-with-test-data.bat
+#+END_SRC
+
+*** Run frontend
+#+BEGIN_SRC sh
+taggable\frontend> yarn start
+#+END_SRC
